@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import {assertNever} from '../../util';
-import {CharacterData, FullCharacterData, SkillProficiency, Stat, CharacterClass, Dice} from '../../types';
+import {CharacterData, FullCharacterData, SkillProficiency, Stat, Dice, WarlockClass} from '../../types';
 
 type CalculateFullCharacterData = (characterData: CharacterData) => FullCharacterData;
 
@@ -49,10 +48,10 @@ const calculateSaves = (characterData: CharacterData, modifiers: FullCharacterDa
   }
 };
 
-const calculateSkills = (characterData: CharacterData, proficiency: number): FullCharacterData['skills'] => {
+const calculateSkills = (characterData: CharacterData, modifiers: FullCharacterData['modifiers'], proficiency: number): FullCharacterData['skills'] => {
   const calculateSkill = (skill: keyof FullCharacterData['proficiencies'], stat: Stat): number => {
     return calculateSkillModifier({
-      statModifier: characterData.stats[stat],
+      statModifier: modifiers[stat],
       skillProficiency: characterData.proficiencies[skill],
       proficiency,
     })
@@ -83,49 +82,34 @@ const calculateSkills = (characterData: CharacterData, proficiency: number): Ful
 const calculateHitDice = (characterData: CharacterData): Dice => {
   const dice: Dice = {};
 
-  Object.entries(characterData.classes).forEach(([charClass2, level]) => {
-    const charClass = charClass2 as CharacterClass | undefined; // bugbug typescript workaround
-    switch (charClass) {
+  Object.entries(characterData.classes).forEach(([charClassName, charClass]) => {
+    const level = charClass?.level || 0;
+    let diceType: keyof Dice | undefined = undefined;
+
+    switch (charClassName as keyof CharacterData['classes']) {
       case 'barbarian':
-        dice['d12'] = (dice['d12'] || 0) + (level || 0);
-        break;
-      case 'bard':
-        dice['d8'] = (dice['d8'] || 0) + (level || 0);
-        break;
-      case 'cleric':
-        dice['d8'] = (dice['d8'] || 0) + (level || 0);
-        break;
-      case 'druid':
-        dice['d8'] = (dice['d8'] || 0) + (level || 0);
+        diceType = 'd12';
         break;
       case 'fighter':
-        dice['d10'] = (dice['d10'] || 0) + (level || 0);
-        break;
-      case 'monk':
-        dice['d8'] = (dice['d8'] || 0) + (level || 0);
-        break;
       case 'paladin':
-        dice['d10'] = (dice['d10'] || 0) + (level || 0);
-        break;
       case 'ranger':
-        dice['d10'] = (dice['d10'] || 0) + (level || 0);
+        diceType = 'd10';
         break;
+      case 'bard':
+      case 'cleric':
+      case 'druid':
+      case 'monk':
       case 'rogue':
-        dice['d8'] = (dice['d8'] || 0) + (level || 0);
+      case 'warlock':
+        diceType = 'd8';
         break;
       case 'sorcerer':
-        dice['d6'] = (dice['d6'] || 0) + (level || 0);
-        break;
-      case 'warlock':
-        dice['d8'] = (dice['d8'] || 0) + (level || 0);
-        break;
       case 'wizard':
-        dice['d6'] = (dice['d6'] || 0) + (level || 0);
+        diceType = 'd6';
         break;
-      case undefined:
-        break;
-      default:
-        assertNever(charClass);
+    }
+    if (diceType) {
+      dice[diceType] = (dice[diceType] || 0) + level;
     }
   });
 
@@ -158,34 +142,140 @@ const calculateHp = (hitDice: Dice): number => {
 };
 
 const calculateSpellSlots = (classes: CharacterData['classes']): FullCharacterData['spellSlots'] => {
-  console.log(classes);
+  // https://5thsrd.org/rules/multiclassing/
+  // https://rpg.stackexchange.com/questions/102008/arcane-trickster-multiclass-spell-preparation
+  const fullCasterLevels = _.chain([classes.bard, classes.cleric, classes.druid, classes.sorcerer, classes.wizard]).compact().map(charClass => charClass.level).sum().value();
+  const halfCasterLevels = _.chain([classes.paladin, classes.ranger]).compact().map(charClass => charClass.level).sum().value();
+  let casterLevel = fullCasterLevels + halfCasterLevels / 2;
+  const lockLevel = classes.warlock?.level || 0;
+
+  if (classes.rogue && classes.rogue.arcaneTrickster) {
+    casterLevel += Math.ceil(classes.rogue.level / 3); // adjusted to match the non-multiclass table
+  }
+  if (classes.fighter && classes.fighter.eldrichKnight) {
+    casterLevel += Math.ceil(classes.fighter.level / 3); // adjusted to match the non-multiclass table
+  }
+  casterLevel = Math.floor(casterLevel);
+
+  let slot1 = 0;
+  let slot2 = 0;
+  let slot3 = 0;
+  let slot4 = 0;
+  let slot5 = 0;
+  let slot6 = 0;
+  let slot7 = 0;
+  let slot8 = 0;
+  let slot9 = 0;
+  let pactSlots = 0;
+
+  if (casterLevel >= 3) {
+    slot1 = 4;
+  } else if (casterLevel >= 2) {
+    slot1 = 3;
+  } else if (casterLevel >= 1) {
+    slot1 = 2;
+  }
+
+  if (casterLevel >= 4) {
+    slot2 = 3;
+  } else if (casterLevel >= 3) {
+    slot2 = 2;
+  }
+
+  if (casterLevel >= 6) {
+    slot3 = 3;
+  } else if (casterLevel >= 5) {
+    slot3 = 2;
+  }
+
+  if (casterLevel >= 9) {
+    slot4 = 3;
+  } else if (casterLevel >= 8) {
+    slot4 = 2;
+  } else if (casterLevel >= 7) {
+    slot4 = 1;
+  }
+
+  if (casterLevel >= 18) {
+    slot5 = 3;
+  } else if (casterLevel >= 10) {
+    slot5 = 2;
+  } else if (casterLevel >= 9) {
+    slot5 = 1;
+  }
+
+  if (casterLevel >= 19) {
+    slot6 = 2;
+  } else if (casterLevel >= 11) {
+    slot6 = 1;
+  }
+
+  if (casterLevel >= 20) {
+    slot7 = 2;
+  } else if (casterLevel >= 13) {
+    slot7 = 1;
+  }
+
+  if (casterLevel >= 15) {
+    slot8 = 1;
+  }
+
+  if (casterLevel >= 17) {
+    slot9 = 1;
+  }
+
+  if (lockLevel >= 17) {
+    pactSlots = 4;
+  } else if (lockLevel >= 11) {
+    pactSlots = 3;
+  } else if (lockLevel >= 2) {
+    pactSlots = 2;
+  } else if (lockLevel >= 1) {
+    pactSlots = 1;
+  }
 
   return {
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-    5: 0,
-    6: 0,
-    7: 0,
-    8: 0,
-    9: 0,
+    1: slot1,
+    2: slot2,
+    3: slot3,
+    4: slot4,
+    5: slot5,
+    6: slot6,
+    7: slot7,
+    8: slot8,
+    9: slot9,
+    pact: pactSlots,
   };
 };
 
+const calculatePactSlotLevel = (warlockClass: WarlockClass): number => {
+  if (warlockClass.level >= 9) {
+    return 5;
+  } else {
+    return Math.floor((warlockClass.level + 1) / 2)
+  }
+};
+
 const calculateFullCharacterData: CalculateFullCharacterData = characterData => {
-  const level = _.sum(Object.values(characterData.classes));
+  const level = _.chain(Object.values(characterData.classes)).map(charClass => charClass?.level || 0).sum().value();
   const proficiency = Math.floor((level - 1) / 4) + 2;
 
   const modifiers = calculateModifiers(characterData);
   const saves = calculateSaves(characterData, modifiers, proficiency);
-  const skills = calculateSkills(characterData, proficiency);
+  const skills = calculateSkills(characterData, modifiers, proficiency);
   const hitDice = calculateHitDice(characterData);
   const hp = calculateHp(hitDice);
   const spellSlots = calculateSpellSlots(characterData.classes);
 
   const fullCharacterData: FullCharacterData = {
     ...characterData,
+    classes: {
+      ...characterData.classes,
+      warlock: characterData.classes.warlock && {
+        ...characterData.classes.warlock,
+        pactSlotLevel: calculatePactSlotLevel(characterData.classes.warlock)
+      },
+    },
     hitDice,
     hp,
     level,
