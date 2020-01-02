@@ -10,19 +10,40 @@ type CharacterProps = {
   characterData: CharacterData;
 };
 
-const NameContainer = styled.h3`
+const CharacterContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  > * {
+    margin: 1em;
+  }
+`;
+
+const Name = styled.h3`
   text-align: center;
+  width: 100%;
+  margin-block-start: 1em;
+  margin-block-end: 0;
+`;
+
+const SkillsAndActions = styled.div`
+  display: flex;
+  > *:not(:first-child) {
+    margin-left: 1em;
+  }
 `;
 
 const Character: React.FC<CharacterProps> = ({characterData}) => {
   const fullCharacterData = calculateFullCharacterData(characterData);
   return (
-    <div>
-      <NameContainer>{fullCharacterData.name}</NameContainer>
+    <CharacterContainer>
+      <Name>{fullCharacterData.name} (level {fullCharacterData.level})</Name>
       <StatBlock character={fullCharacterData} />
-      <SkillBlock character={fullCharacterData} />
-      <Actions character={fullCharacterData} />
-    </div>
+      <SkillsAndActions>
+        <Actions character={fullCharacterData} />
+        <SkillBlock character={fullCharacterData} />
+      </SkillsAndActions>
+    </CharacterContainer>
   );
 };
 

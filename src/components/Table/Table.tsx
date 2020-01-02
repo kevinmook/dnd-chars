@@ -7,6 +7,15 @@ const Table = styled.table`
   &, td, tr, th {
     border: 1px solid ${colors.lightGrey};
   }
+
+  th {
+    padding: 1em;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 0.25em;
+  }
 `;
 
 export default Table;

@@ -1,4 +1,5 @@
 import React from 'react';
+import {styled} from 'linaria/react';
 import {FullCharacterData} from '../../types';
 import Table from '../Table';
 
@@ -6,9 +7,13 @@ type StatBlockProps = {
   character: FullCharacterData;
 };
 
+const StatBlockTable = styled(Table)`
+  text-align: center;
+`;
+
 const StatBlock: React.FC<StatBlockProps> = ({character}) => {
   return (
-    <Table>
+    <StatBlockTable>
       <tr>
         <th>Strength</th>
         <th>Dexterity</th>
@@ -19,6 +24,7 @@ const StatBlock: React.FC<StatBlockProps> = ({character}) => {
         <th>AC</th>
         <th>Initiative</th>
         <th>Walking Speed</th>
+        <th>HP</th>
       </tr>
       <tr>
         <td>{character.stats.strength}</td>
@@ -27,9 +33,10 @@ const StatBlock: React.FC<StatBlockProps> = ({character}) => {
         <td>{character.stats.intelligence}</td>
         <td>{character.stats.wisdom}</td>
         <td>{character.stats.charisma}</td>
-        <td>{character.armorClass}</td>
-        <td>{character.modifiers.dexterity}</td>
-        <td>{character.walkingSpeed}</td>
+        <td rowSpan={2}>{character.armorClass}</td>
+        <td rowSpan={2}>{character.modifiers.dexterity}</td>
+        <td rowSpan={2}>{character.walkingSpeed}</td>
+        <td>{character.hp}</td>
       </tr>
       <tr>
         <td>{character.modifiers.strength}</td>
@@ -39,10 +46,8 @@ const StatBlock: React.FC<StatBlockProps> = ({character}) => {
         <td>{character.modifiers.wisdom}</td>
         <td>{character.modifiers.charisma}</td>
         <td></td>
-        <td></td>
-        <td></td>
       </tr>
-    </Table>
+    </StatBlockTable>
   );
 };
 
