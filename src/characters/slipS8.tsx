@@ -183,7 +183,10 @@ const slipS8: CharacterData = {
   ],
   armorClass: 16,
   classes: {
-    rogue: 6,
+    rogue: {
+      level: 6,
+      arcaneTrickster: true,
+    },
   },
   name: 'S8 - Phillip (Slip) Slipsilver',
   proficiencies: {
