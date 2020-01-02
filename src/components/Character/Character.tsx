@@ -3,6 +3,7 @@ import {styled} from 'linaria/react';
 import {CharacterData} from '../../types';
 import StatTable from './StatTable';
 import SkillTable from './SkillTable';
+import SavesTable from './SavesTable';
 import SpellSlotTable from './SpellSlotTable';
 import Actions from './Actions';
 import calculateFullCharacterData from './calculateFullCharacterData';
@@ -57,6 +58,7 @@ const Character: React.FC<CharacterProps> = ({characterData}) => {
         <Actions character={fullCharacterData} />
         <Sidebar>
           <SkillTable character={fullCharacterData} />
+          <SavesTable character={fullCharacterData} />
           <SpellSlotTable character={fullCharacterData} />
         </Sidebar>
       </SkillsAndActions>

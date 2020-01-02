@@ -1,10 +1,11 @@
 import React from 'react';
 import {FullCharacterData} from '../../types';
-import Table from '../Table';
+import Table, {CenteredCell} from '../Table';
 
 type SkillTableProps = {
   character: FullCharacterData;
 };
+
 
 const SkillRow: React.FC<{name: string, skill: keyof FullCharacterData['skills'], character: FullCharacterData}> = ({name, skill, character}) => {
   const skillValue = character.skills[skill];
@@ -18,7 +19,7 @@ const SkillRow: React.FC<{name: string, skill: keyof FullCharacterData['skills']
   return (
     <tr>
       <td>{name}{proficiencyStars}</td>
-      <td>{skillValue}</td>
+      <CenteredCell>{skillValue}</CenteredCell>
     </tr>
   );
 };

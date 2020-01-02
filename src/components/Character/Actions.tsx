@@ -1,6 +1,6 @@
 import React from 'react';
 import {FullCharacterData} from '../../types';
-import Table from '../Table';
+import Table, {CenteredCell} from '../Table';
 import DiceBlock from '../DiceBlock';
 
 type ActionsProps = {
@@ -30,10 +30,10 @@ const Actions: React.FC<ActionsProps> = ({character}) => {
           return (
             <tr key={action.name}>
               <td>{action.name}</td>
-              <td>{action.range}</td>
-              <td>{action.time}</td>
-              <td>{hitDice && <DiceBlock dice={hitDice} />}</td>
-              <td>{damageDice && <DiceBlock dice={damageDice} />}</td>
+              <CenteredCell>{action.range}</CenteredCell>
+              <CenteredCell>{action.time}</CenteredCell>
+              <CenteredCell>{hitDice && <DiceBlock dice={hitDice} />}</CenteredCell>
+              <CenteredCell>{damageDice && <DiceBlock dice={damageDice} />}</CenteredCell>
               <td>{action.cost}</td>
               <td>{action.duration}</td>
               <td>{action.Note && <action.Note action={action} character={character} />}</td>
