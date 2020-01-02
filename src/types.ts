@@ -1,55 +1,18 @@
 import React from 'react';
 
+export type SkillProficiency = 'basic' | 'proficient' | 'expert';
+export type Stat = 'strength' | 'dexterity' | 'constitution' | 'intelligence' | 'wisdom' | 'charisma';
+export type CharacterClass = 'barbarian' | 'bard' | 'cleric' | 'druid' | 'fighter' | 'monk' | 'paladin' | 'ranger' | 'rogue' | 'sorcerer' | 'warlock' | 'wizard';
+export type Skill = 'acrobatics' | 'animalHandling' | 'arcana' | 'athletics' | 'deception' | 'history' | 'insight' | 'intimidation' | 'investigation' | 'medicine' | 'nature' | 'perception' | 'performance' | 'persuasion' | 'religion' | 'slightOfHand' | 'stealth' | 'survival';
+export type SpellLevels = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+
 export type CharacterData = {
   actions: Action[];
   armorClass: number;
-  level: number;
+  classes: Partial<{[key in CharacterClass]: number}>;
   name: string;
-  skills: {
-    acrobatics: SkillLevel;
-    animalHandling: SkillLevel;
-    arcana: SkillLevel;
-    athletics: SkillLevel;
-    deception: SkillLevel;
-    history: SkillLevel;
-    insight: SkillLevel;
-    intimidation: SkillLevel;
-    investigation: SkillLevel;
-    medicine: SkillLevel;
-    nature: SkillLevel;
-    perception: SkillLevel;
-    performance: SkillLevel;
-    persuasion: SkillLevel;
-    religion: SkillLevel;
-    slightOfHand: SkillLevel;
-    stealth: SkillLevel;
-    survival: SkillLevel;
-    strength: SkillLevel;
-    dexterity: SkillLevel;
-    constitution: SkillLevel;
-    intelligence: SkillLevel;
-    wisdom: SkillLevel;
-    charisma: SkillLevel;
-  },
-  spellSlots: {
-    1: number;
-    2: number;
-    3: number;
-    4: number;
-    5: number;
-    6: number;
-    7: number;
-    8: number;
-    9: number;
-  };
-  stats: {
-    strength: number;
-    dexterity: number;
-    constitution: number;
-    intelligence: number;
-    wisdom: number;
-    charisma: number;
-  },
+  proficiencies: {[key in Skill | Stat]: SkillProficiency},
+  stats: {[key in Stat]: number},
   walkingSpeed: number;
 };
 
@@ -66,50 +29,23 @@ export type Action = {
   Note?: React.FC<{character: FullCharacterData, action: Action}>;
 };
 
-export type Dice = {
-  d4?: number;
-  d6?: number;
-  d8?: number;
-  d10?: number;
-  d12?: number;
-  d20?: number;
-  modifier?: number;
-};
-
-export type SkillLevel = 'basic' | 'proficient' | 'expert';
+export type Dice = Partial<{
+  d4: number;
+  d6: number;
+  d8: number;
+  d10: number;
+  d12: number;
+  d20: number;
+  modifier: number;
+}>;
 
 export type FullCharacterData = CharacterData & {
+  hitDice: Dice;
+  hp: number;
+  level: number;
+  modifiers: {[key in Stat]: number};
   proficiency: number;
-  modifiers: {
-    acrobatics: number;
-    animalHandling: number;
-    arcana: number;
-    athletics: number;
-    deception: number;
-    history: number;
-    insight: number;
-    intimidation: number;
-    investigation: number;
-    medicine: number;
-    nature: number;
-    perception: number;
-    performance: number;
-    persuasion: number;
-    religion: number;
-    slightOfHand: number;
-    stealth: number;
-    survival: number;
-    strengthSave: number;
-    dexteritySave: number;
-    constitutionSave: number;
-    intelligenceSave: number;
-    wisdomSave: number;
-    charismaSave: number;
-    strength: number;
-    dexterity: number;
-    constitution: number;
-    intelligence: number;
-    wisdom: number;
-    charisma: number;
-  },
+  saves: {[key in Stat]: number};
+  skills: {[key in Skill]: number};
+  spellSlots: {[key in SpellLevels]: number};
 };
