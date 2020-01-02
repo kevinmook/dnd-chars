@@ -63,7 +63,7 @@ export type Action = {
   damage?: ((character: FullCharacterData) => Dice);
   cost?: string;
   duration?: string;
-  Note?: React.FC<{}>;
+  Note?: React.FC<{character: FullCharacterData, action: Action}>;
 };
 
 export type Dice = {
