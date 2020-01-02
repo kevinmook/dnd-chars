@@ -1,5 +1,4 @@
 const colors = {
-  // lightGrey: undefined,
   lightGrey: '#ccc',
 };
 
