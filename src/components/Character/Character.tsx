@@ -27,6 +27,7 @@ const CharacterContainer = styled.div`
 const Name = styled.h3`
   text-align: center;
   width: 100%;
+  margin: 1em 0;
 `;
 
 const SkillsAndActions = styled.div`
