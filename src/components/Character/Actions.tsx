@@ -33,7 +33,7 @@ const Actions: React.FC<ActionsProps> = ({character}) => {
             <td>{damageDice && <DiceBlock dice={damageDice} />}</td>
             <td>{action.cost}</td>
             <td>{action.duration}</td>
-            <td>{action.Note && <action.Note />}</td>
+            <td>{action.Note && <action.Note action={action} character={character} />}</td>
           </tr>
         );
       })}
