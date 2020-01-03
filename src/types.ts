@@ -46,6 +46,9 @@ export type CharacterData = {
     warlock?: WarlockClass;
     wizard?: WizardClass;
   };
+  feats?: {
+    elvenAccuracy?: boolean;
+  },
   name: string;
   proficiencies: {[key in Skill | Stat]: SkillProficiency},
   stats: {[key in Stat]: number},
@@ -56,7 +59,7 @@ export type Action = {
   name: string;
   range?: string;
   time?: string;
-  hit?: ((character: FullCharacterData) => Dice);
+  hitModifier?: ((character: FullCharacterData) => number);
   dc?: number;
   dcStat?: string;
   damage?: ((character: FullCharacterData) => Dice);
@@ -87,4 +90,11 @@ export type FullCharacterData = Omit<CharacterData, 'classes'> & {
   saves: {[key in Stat]: number};
   skills: {[key in Skill]: number};
   spellSlots: {[key in SpellLevels]: number};
+};
+
+export type CharacterState = {
+  advantage: boolean;
+  currentHp: number;
+  temporaryHp: number;
+  guidance: boolean;
 };

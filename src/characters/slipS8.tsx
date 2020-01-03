@@ -17,9 +17,7 @@ const slipS8: CharacterData = {
       name: 'Rapier',
       range: '5',
       time: '1A',
-      hit: character => ({
-        modifier: character.modifiers.dexterity + character.proficiency,
-      }),
+      hitModifier: character => character.modifiers.dexterity + character.proficiency,
       damage: character => ({
         d8: 1,
         modifier: character.modifiers.dexterity,
@@ -29,9 +27,7 @@ const slipS8: CharacterData = {
       name: 'Shortsword',
       range: '5',
       time: '1A',
-      hit: character => ({
-        modifier: character.modifiers.dexterity + character.proficiency,
-      }),
+      hitModifier: character => character.modifiers.dexterity + character.proficiency,
       damage: character => ({
         d6: 1,
         modifier: character.modifiers.dexterity,
@@ -41,9 +37,7 @@ const slipS8: CharacterData = {
       name: 'Longbow',
       range: '150 (600)',
       time: '1A',
-      hit: character => ({
-        modifier: character.modifiers.dexterity + character.proficiency + 1,
-      }),
+      hitModifier: character => character.modifiers.dexterity + character.proficiency + 1,
       damage: character => ({
         d8: 1,
         modifier: character.modifiers.dexterity + 1,
@@ -187,6 +181,9 @@ const slipS8: CharacterData = {
       level: 6,
       arcaneTrickster: true,
     },
+  },
+  feats: {
+    elvenAccuracy: true,
   },
   name: 'S8 - Phillip (Slip) Slipsilver',
   proficiencies: {

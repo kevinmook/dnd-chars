@@ -1,68 +1,45 @@
 import React from 'react';
-import {styled} from 'linaria/react';
-import {CharacterData} from '../../types';
-import StatTable from './StatTable';
-import SkillTable from './SkillTable';
-import SavesTable from './SavesTable';
-import SpellSlotTable from './SpellSlotTable';
-import Actions from './Actions';
+import {CharacterData, CharacterState, Action} from '../../types';
+import {CharacterStateProvider} from '../CharacterState';
 import calculateFullCharacterData from './calculateFullCharacterData';
+import CharacterLayout from './CharacterLayout';
 
 type CharacterProps = {
   characterData: CharacterData;
 };
 
-const CharacterContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  > * {
-    margin: 1em;
-  }
-
-  > *:last-child {
-    margin-bottom: 1em;
-  }
-`;
-
-const Name = styled.h3`
-  text-align: center;
-  width: 100%;
-  margin: 1em 0;
-`;
-
-const SkillsAndActions = styled.div`
-  display: flex;
-  > *:not(:first-child) {
-    margin-left: 1em;
-  }
-`;
-
-const Sidebar = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-
-  > *:not(:first-child) {
-    margin-top: 1em;
-  }
-`;
-
 const Character: React.FC<CharacterProps> = ({characterData}) => {
   const fullCharacterData = calculateFullCharacterData(characterData);
+  const [characterState, setCharacterState] = React.useState<CharacterState>({
+    advantage: false,
+    currentHp: fullCharacterData.hp,
+    temporaryHp: 0,
+    guidance: false,
+  });
+  const [rollModalOpen, setRollModalOpen] = React.useState(false);
+  const [activeAction, setActiveAction] = React.useState<Action | null>(null);
+
+  const handleCloseRollModal = () => {
+    setRollModalOpen(false);
+    setActiveAction(null);
+  }
+  const handleOpenRollModal = (action?: Action) => {
+    setActiveAction(action || null);
+    setRollModalOpen(true);
+  };
+  
   return (
-    <CharacterContainer>
-      <Name>{fullCharacterData.name} (level {fullCharacterData.level})</Name>
-      <StatTable character={fullCharacterData} />
-      <SkillsAndActions>
-        <Actions character={fullCharacterData} />
-        <Sidebar>
-          <SkillTable character={fullCharacterData} />
-          <SavesTable character={fullCharacterData} />
-          <SpellSlotTable character={fullCharacterData} />
-        </Sidebar>
-      </SkillsAndActions>
-    </CharacterContainer>
+    <CharacterStateProvider>
+      <CharacterLayout
+        activeAction={activeAction}
+        character={fullCharacterData}
+        characterState={characterState}
+        rollModalOpen={rollModalOpen}
+        setCharacterState={setCharacterState}
+        closeRollModal={handleCloseRollModal}
+        openRollModal={handleOpenRollModal}
+      />
+    </CharacterStateProvider>
   );
 };
 
