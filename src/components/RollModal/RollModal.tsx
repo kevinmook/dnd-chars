@@ -17,11 +17,17 @@ type RollModalProps = {
 };
 
 const RollModal: React.FC<RollModalProps> = ({action, character, characterState, open, onClose}) => {
+  let clearRollBox: () => void = () => {};
+
+  const handleClose = () => {
+    clearRollBox();
+    onClose();
+  };
 
   return (
     <Modal
       isOpen={open}
-      onRequestClose={onClose}
+      onRequestClose={handleClose}
       onAfterOpen={() => { noScroll.on() }}
       onAfterClose={() => { noScroll.off() }}
     >
@@ -39,9 +45,10 @@ const RollModal: React.FC<RollModalProps> = ({action, character, characterState,
           elvenAccuracy: character.feats?.elvenAccuracy,
           rogueLevel: character.classes.rogue?.level,
         }}
+        setClearCallback={callback => clearRollBox = callback}
       />
 
-      <button onClick={onClose}>close</button>
+      <button onClick={handleClose}>close</button>
     </Modal>
   );
 };

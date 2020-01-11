@@ -18,16 +18,19 @@ type RollBoxProps = {
   };
   baseRoll: Dice;
   baseToHit: number;
+  setClearCallback?: (callback: () => void) => void;
 };
 
-const RollBox: React.FC<RollBoxProps> = ({baseToHit, defaultStates, baseRoll, modifiers}) => {
+const RollBox: React.FC<RollBoxProps> = ({baseToHit, defaultStates, baseRoll, modifiers, setClearCallback}) => {
   const [guidance, setGuidance] = React.useState<boolean>(defaultStates?.guidance || false);
   const [advantage, setAdvantage] = React.useState<boolean>(defaultStates?.advantage || false);
   const [sneakAttack, setSneakAttack] = React.useState<boolean>(defaultStates?.sneakAttack || false);
-  const [rollResult, setRollResult] = React.useState<RollResultType | undefined>();
+  const [rollResult, setRollResult] = React.useState<RollResultType | null>(null);
   const toggleSneakAttack = () => setSneakAttack(!sneakAttack);
   const toggleAdvantage = () => setAdvantage(!advantage);
   const toggleGuidance = () => setGuidance(!guidance);
+
+  setClearCallback?.(() => setRollResult(null));
 
   let damageDice: Dice = baseRoll;
   if (sneakAttack) {

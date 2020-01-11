@@ -8,7 +8,7 @@ type RollBoxLayoutProps = {
   damageDice: Dice;
   guidance: boolean;
   roll: () => void;
-  rollResult: RollResultType | undefined;
+  rollResult: RollResultType | null;
   sneakAttack: boolean;
   toggleAdvantage: () => void;
   toggleGuidance: () => void;
