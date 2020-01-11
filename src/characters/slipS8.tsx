@@ -17,7 +17,8 @@ const slipS8: CharacterData = {
       name: 'Rapier',
       range: '5',
       time: '1A',
-      hitModifier: character => character.modifiers.dexterity + character.proficiency,
+      stat: 'dexterity',
+      proficient: true,
       damage: character => ({
         d8: 1,
         modifier: character.modifiers.dexterity,
@@ -27,7 +28,8 @@ const slipS8: CharacterData = {
       name: 'Shortsword',
       range: '5',
       time: '1A',
-      hitModifier: character => character.modifiers.dexterity + character.proficiency,
+      stat: 'dexterity',
+      proficient: true,
       damage: character => ({
         d6: 1,
         modifier: character.modifiers.dexterity,
@@ -37,7 +39,9 @@ const slipS8: CharacterData = {
       name: 'Longbow',
       range: '150 (600)',
       time: '1A',
-      hitModifier: character => character.modifiers.dexterity + character.proficiency + 1,
+      stat: 'dexterity',
+      proficient: true,
+      hitModifier: 1,
       damage: character => ({
         d8: 1,
         modifier: character.modifiers.dexterity + 1,

@@ -2,11 +2,12 @@ import React from 'react';
 import _ from 'lodash';
 import {addDice} from '../../util';
 import {sneakAttackDamage} from '../../util/actions';
-import {Dice} from '../../types';
+import {Dice, Action} from '../../types';
 import {RollResultType, rollDie} from './RollResult';
 import RollBoxLayout from './RollBoxLayout';
 
 type RollBoxProps = {
+  action: Action;
   defaultStates?: {
     guidance?: boolean,
     advantage?: boolean;
@@ -25,6 +26,7 @@ const RollBox: React.FC<RollBoxProps> = ({baseToHit, defaultStates, baseRoll, mo
   const [guidance, setGuidance] = React.useState<boolean>(defaultStates?.guidance || false);
   const [advantage, setAdvantage] = React.useState<boolean>(defaultStates?.advantage || false);
   const [sneakAttack, setSneakAttack] = React.useState<boolean>(defaultStates?.sneakAttack || false);
+  const [offhand, setOffhand] = React.useState<boolean>(defaultStates?.sneakAttack || false);
   const [rollResult, setRollResult] = React.useState<RollResultType | null>(null);
   const toggleSneakAttack = () => setSneakAttack(!sneakAttack);
   const toggleAdvantage = () => setAdvantage(!advantage);

@@ -56,16 +56,17 @@ export type CharacterData = {
 };
 
 export type Action = {
-  name: string;
-  range?: string;
-  time?: string;
-  hitModifier?: ((character: FullCharacterData) => number);
-  dc?: number;
-  dcStat?: string;
-  damage?: ((character: FullCharacterData) => Dice);
   cost?: string;
+  damage?: ((character: FullCharacterData) => Dice);
+  dc?: number;
   duration?: string;
+  hitModifier?: number;
+  name: string;
   Note?: React.FC<{character: FullCharacterData, action: Action}>;
+  range?: string;
+  stat?: Stat;
+  proficient?: boolean;
+  time?: string;
 };
 
 export type Dice = Partial<{

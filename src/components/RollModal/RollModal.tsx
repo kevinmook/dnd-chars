@@ -8,7 +8,7 @@ import RollBox from '../RollBox';
 Modal.setAppElement('#root')
 
 type RollModalProps = {
-  action: Action | null;
+  action: Action;
   character: FullCharacterData,
   characterState: CharacterState;
   onClose: () => void;
@@ -34,8 +34,7 @@ const RollModal: React.FC<RollModalProps> = ({action, character, characterState,
       <h2>{action?.name}</h2>
 
       <RollBox
-        baseRoll={action?.damage?.(character) || {}}
-        baseToHit={action?.hitModifier?.(character) || 0}
+        action={action}
         defaultStates={{
           advantage: characterState.advantage,
           guidance: characterState.guidance,
