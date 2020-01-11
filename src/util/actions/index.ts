@@ -1,1 +1,1 @@
-export {default as sneakAttack} from './sneakAttack';
+export {default as sneakAttack, sneakAttackDamage} from './sneakAttack';
