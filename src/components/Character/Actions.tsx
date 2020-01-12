@@ -1,6 +1,7 @@
 import React from 'react';
 import {styled} from 'linaria/react';
 import {FullCharacterData, Action} from '../../types';
+import {calculateToHit, calculateDamage} from '../../util/actions';
 import Table, {CenteredCell} from '../Table';
 import DiceBlock from '../DiceBlock';
 
@@ -30,8 +31,8 @@ const Actions: React.FC<ActionsProps> = ({character, openRollModal}) => {
       </thead>
       <tbody>
         {character.actions.map(action => {
-          const hitModifier = action.hitModifier?.(character) || 0;
-          const damageDice = action.damage?.(character);
+          const hitModifier = calculateToHit(action, character);
+          const damageDice = calculateDamage({action, character});
 
           return (
             <tr key={action.name}>
@@ -39,7 +40,7 @@ const Actions: React.FC<ActionsProps> = ({character, openRollModal}) => {
               <CenteredCell>{action.range}</CenteredCell>
               <CenteredCell>{action.time}</CenteredCell>
               <CenteredCell>{hitModifier}</CenteredCell>
-              <ClickableCenteredCell onClick={() => damageDice && openRollModal(action)}>{damageDice && <DiceBlock dice={damageDice} />}</ClickableCenteredCell>
+              <ClickableCenteredCell onClick={() => openRollModal(action)}>{<DiceBlock dice={damageDice} />}</ClickableCenteredCell>
               <td>{action.cost}</td>
               <td>{action.duration}</td>
               <td>{action.Note && <action.Note action={action} character={character} />}</td>

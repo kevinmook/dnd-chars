@@ -76,14 +76,16 @@ const CharacterLayout: React.FC<CharacterLayoutProps> = ({
           <SpellSlotTable character={character} />
         </Sidebar>
       </SkillsAndActions>
-      <RollModal
-        action={activeAction}
-        character={character}
-        characterState={characterState}
-        onClose={closeRollModal}
-        open={rollModalOpen}
-        setCharacterState={setCharacterState}
-      />
+      {activeAction && (
+        <RollModal
+          action={activeAction}
+          character={character}
+          characterState={characterState}
+          onClose={closeRollModal}
+          open={rollModalOpen}
+          setCharacterState={setCharacterState}
+        />
+      )}
     </CharacterContainer>
   );
 };

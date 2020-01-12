@@ -39,18 +39,18 @@ const StatTable: React.FC<StatTableProps> = ({character}) => {
           <td>{character.stats.wisdom}</td>
           <td>{character.stats.charisma}</td>
           <td rowSpan={2}>{character.armorClass}</td>
-          <td rowSpan={2}>{character.modifiers.dexterity}</td>
+          <td rowSpan={2}>{character.statModifiers.dexterity}</td>
           <td rowSpan={2}>{character.walkingSpeed}</td>
           <td>{character.hp}</td>
           <td rowSpan={2}></td>
         </tr>
         <tr>
-          <td>{character.modifiers.strength}</td>
-          <td>{character.modifiers.dexterity}</td>
-          <td>{character.modifiers.constitution}</td>
-          <td>{character.modifiers.intelligence}</td>
-          <td>{character.modifiers.wisdom}</td>
-          <td>{character.modifiers.charisma}</td>
+          <td>{character.statModifiers.strength}</td>
+          <td>{character.statModifiers.dexterity}</td>
+          <td>{character.statModifiers.constitution}</td>
+          <td>{character.statModifiers.intelligence}</td>
+          <td>{character.statModifiers.wisdom}</td>
+          <td>{character.statModifiers.charisma}</td>
           <td></td>
         </tr>
       </tbody>

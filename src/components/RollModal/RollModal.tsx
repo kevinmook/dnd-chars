@@ -35,6 +35,7 @@ const RollModal: React.FC<RollModalProps> = ({action, character, characterState,
 
       <RollBox
         action={action}
+        character={character}
         defaultStates={{
           advantage: characterState.advantage,
           guidance: characterState.guidance,

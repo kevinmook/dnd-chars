@@ -1,14 +1,15 @@
 import React from 'react';
 import {Dice} from '../../types';
+import {RollResultWithTotals} from './types';
 import DiceBlock from '../DiceBlock';
-import RollResult, {RollResultType} from './RollResult';
+import RollResult from './RollResult';
 
 type RollBoxLayoutProps = {
   advantage: boolean;
   damageDice: Dice;
   guidance: boolean;
   roll: () => void;
-  rollResult: RollResultType | null;
+  rollResult: RollResultWithTotals | null;
   sneakAttack: boolean;
   toggleAdvantage: () => void;
   toggleGuidance: () => void;

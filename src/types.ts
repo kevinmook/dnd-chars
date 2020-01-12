@@ -4,6 +4,7 @@ export type SkillProficiency = 'basic' | 'proficient' | 'expert';
 export type Stat = 'strength' | 'dexterity' | 'constitution' | 'intelligence' | 'wisdom' | 'charisma';
 export type Skill = 'acrobatics' | 'animalHandling' | 'arcana' | 'athletics' | 'deception' | 'history' | 'insight' | 'intimidation' | 'investigation' | 'medicine' | 'nature' | 'perception' | 'performance' | 'persuasion' | 'religion' | 'slightOfHand' | 'stealth' | 'survival';
 export type SpellLevels = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 'pact';
+export type DamageType = 'piercing' | 'slashing';
 
 export type CharacterClass = {
   level: number;
@@ -55,9 +56,15 @@ export type CharacterData = {
   walkingSpeed: number;
 };
 
+export type ActionDamage = {
+  dice: Dice;
+  magic?: boolean;
+  type: DamageType;
+};
+
 export type Action = {
   cost?: string;
-  damage?: ((character: FullCharacterData) => Dice);
+  damage?: ActionDamage;
   dc?: number;
   duration?: string;
   hitModifier?: number;
@@ -86,7 +93,7 @@ export type FullCharacterData = Omit<CharacterData, 'classes'> & {
   hitDice: Dice;
   hp: number;
   level: number;
-  modifiers: {[key in Stat]: number};
+  statModifiers: {[key in Stat]: number};
   proficiency: number;
   saves: {[key in Stat]: number};
   skills: {[key in Skill]: number};
@@ -98,4 +105,15 @@ export type CharacterState = {
   currentHp: number;
   temporaryHp: number;
   guidance: boolean;
+};
+
+export type DiceRoll = {
+  diceSize: number;
+  diceResult: number;
+};
+
+export type RollResultType = {
+  attackRolls: DiceRoll[];
+  attackBonusRolls: DiceRoll[];
+  damageRolls: DiceRoll[];
 };

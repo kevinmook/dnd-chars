@@ -19,10 +19,12 @@ const slipS8: CharacterData = {
       time: '1A',
       stat: 'dexterity',
       proficient: true,
-      damage: character => ({
-        d8: 1,
-        modifier: character.modifiers.dexterity,
-      }),
+      damage: {
+        dice: {
+          d8: 1,
+        },
+        type: 'piercing',
+      },
     },
     {
       name: 'Shortsword',
@@ -30,10 +32,12 @@ const slipS8: CharacterData = {
       time: '1A',
       stat: 'dexterity',
       proficient: true,
-      damage: character => ({
-        d6: 1,
-        modifier: character.modifiers.dexterity,
-      }),
+      damage: {
+        dice: {
+          d6: 1,
+        },
+        type: 'piercing',
+      },
     },
     {
       name: 'Longbow',
@@ -42,17 +46,18 @@ const slipS8: CharacterData = {
       stat: 'dexterity',
       proficient: true,
       hitModifier: 1,
-      damage: character => ({
-        d8: 1,
-        modifier: character.modifiers.dexterity + 1,
-      }),
+      damage: {
+        dice: {
+          d8: 1,
+          modifier: 1,
+        },
+        type: 'piercing',
+        magic: true,
+      },
     },
     {
       name: 'Sneak attack',
-      damage: character => ({
-        d6: Math.floor((character.level + 1) / 2),
-      }),
-      Note: ({action, character}) => <div>Once per turn, you can deal an extra {action.damage && <DiceBlock dice={action.damage(character)} />} damage to one creature you hit with an attack with a finesse or ranged weapon if you have advantage on the attack roll. You don’t need advantage on the attack roll if another enemy of the target is within 5 ft. of it, that enemy isn’t incapacitated, and you don’t have disadvantage on the attack roll.</div>,
+      Note: ({character}) => <div>Once per turn, you can deal an extra {<DiceBlock dice={{d6: Math.ceil(character.level / 2)}} />} damage to one creature you hit with an attack with a finesse or ranged weapon if you have advantage on the attack roll. You don’t need advantage on the attack roll if another enemy of the target is within 5 ft. of it, that enemy isn’t incapacitated, and you don’t have disadvantage on the attack roll.</div>,
     },
     {
       name: 'Dash, disengage, hide, control hand',
@@ -164,19 +169,13 @@ const slipS8: CharacterData = {
       name: 'Potion of healing (faction)',
       range: '5',
       time: '1A',
-      damage: () => ({
-        d4: 2,
-        modifier: 2,
-      }),
+      Note: () => <div>Heals <DiceBlock dice={{d4: 2, modifier: 2}} /></div>,
     },
     {
       name: 'Greater potion of healing',
       range: '5',
       time: '1A',
-      damage: () => ({
-        d4: 4,
-        modifier: 4,
-      }),
+      Note: () => <div>Heals <DiceBlock dice={{d4: 4, modifier: 4}} /></div>,
     },
   ],
   armorClass: 16,

@@ -1,24 +1,8 @@
 import React from 'react';
-import {Random} from 'random-js';
-
-const random = new Random();
+import {RollResultWithTotals} from './types';
 
 type RollResultProps = {
-  rollResult: RollResultType;
-};
-
-export type DiceRoll = {
-  diceSize: number;
-  diceResult: number;
-};
-
-export type RollResultType = {
-  basicHitRolls: DiceRoll[];
-  bonusHitRolls: DiceRoll[];
-  plusToHit: number;
-  damageRolls: DiceRoll[];
-  finalToHit: number;
-  finalDamage: number;
+  rollResult: RollResultWithTotals;
 };
 
 const RollResult: React.FC<RollResultProps> = ({rollResult}) => {
@@ -28,7 +12,7 @@ const RollResult: React.FC<RollResultProps> = ({rollResult}) => {
       <div>
         <h3>Basic hit rolls</h3>
         <ul>
-          {rollResult.basicHitRolls.map((roll, index) => (
+          {rollResult.attackRolls.map((roll, index) => (
             <li key={index}>{roll.diceResult} / {roll.diceSize}</li>
           ))}
         </ul>
@@ -36,7 +20,7 @@ const RollResult: React.FC<RollResultProps> = ({rollResult}) => {
       <div>
         <h3>Bonus hit rolls</h3>
         <ul>
-          {rollResult.bonusHitRolls.map((roll, index) => (
+          {rollResult.attackBonusRolls.map((roll, index) => (
             <li key={index}>{roll.diceResult} / {roll.diceSize}</li>
           ))}
         </ul>
@@ -70,10 +54,5 @@ const RollResult: React.FC<RollResultProps> = ({rollResult}) => {
     </div>
   );
 };
-
-export const rollDie = (diceSize: number): DiceRoll => ({
-  diceSize,
-  diceResult: random.die(diceSize),
-});
 
 export default RollResult;

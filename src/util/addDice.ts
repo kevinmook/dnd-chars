@@ -1,6 +1,7 @@
+import _ from 'lodash';
 import {Dice} from '../types';
 
-const addDice = (dice1: Dice, dice2: Dice): Dice => {
+const addTwoDice = (dice1: Dice, dice2: Dice): Dice => {
   const newDice: Dice = {
     d4: (dice1.d4 || 0) + (dice2.d4 || 0),
     d6: (dice1.d6 || 0) + (dice2.d6 || 0),
@@ -20,5 +21,8 @@ const addDice = (dice1: Dice, dice2: Dice): Dice => {
 
   return newDice;
 };
+
+const addDice = (...dice: (Dice | undefined)[]): Dice =>
+  _.reduce(_.compact(dice), (die, acc) => addTwoDice(die || {}, acc), {});
 
 export default addDice;
