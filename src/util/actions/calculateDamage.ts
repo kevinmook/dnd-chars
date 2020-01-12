@@ -16,14 +16,13 @@ const calculateDamage: CalculateDamage = ({
   sneakAttack,
 }) => {
   const statModifier = (action.stat && character.statModifiers[action.stat]) || 0;
-  const proficientModifier = action.proficient ? statModifier : 0;
   const sneakAttackDice = (sneakAttack && calculateSneakAttackDamage(character.classes.rogue?.level || 0)) || {};
 
   const damageDice: Dice = addDice(
     action.damage?.dice,
     sneakAttackDice,
     {
-      modifier: statModifier + proficientModifier,
+      modifier: statModifier,
     }
   );
 

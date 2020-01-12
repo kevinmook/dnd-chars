@@ -24,11 +24,11 @@ const CharacterContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   > * {
-    margin: 1em;
+    margin: 1rem;
   }
 
   > *:last-child {
-    margin-bottom: 1em;
+    margin-bottom: 1rem;
   }
 `;
 
@@ -41,7 +41,7 @@ const Name = styled.h3`
 const SkillsAndActions = styled.div`
   display: flex;
   > *:not(:first-child) {
-    margin-left: 1em;
+    margin-left: 1rem;
   }
 `;
 
@@ -51,7 +51,7 @@ const Sidebar = styled.div`
   justify-content: flex-start;
 
   > *:not(:first-child) {
-    margin-top: 1em;
+    margin-top: 1rem;
   }
 `;
 

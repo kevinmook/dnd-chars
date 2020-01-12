@@ -39,7 +39,7 @@ const Actions: React.FC<ActionsProps> = ({character, openRollModal}) => {
               <td>{action.name}</td>
               <CenteredCell>{action.range}</CenteredCell>
               <CenteredCell>{action.time}</CenteredCell>
-              <CenteredCell>{hitModifier}</CenteredCell>
+              <CenteredCell>{hitModifier !== 0 || action.damage !== undefined ? hitModifier : ''}</CenteredCell>
               <ClickableCenteredCell onClick={() => openRollModal(action)}>{<DiceBlock dice={damageDice} />}</ClickableCenteredCell>
               <td>{action.cost}</td>
               <td>{action.duration}</td>

@@ -9,12 +9,12 @@ const Table = styled.table`
   }
 
   th {
-    padding: 1em;
+    padding: 1rem;
     white-space: nowrap;
   }
 
   td {
-    padding: 0.25em;
+    padding: 0.25rem;
   }
 `;
 
