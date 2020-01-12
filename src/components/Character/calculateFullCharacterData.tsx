@@ -15,21 +15,21 @@ const calculateSkillModifier: CalculateSkillModifier = ({statModifier, skillProf
   return statModifier + skillModifier;
 };
 
-const calculateModifiers = (characterData: CharacterData): FullCharacterData['modifiers'] => {
-  const calculateStatModifier = (stat: number): number =>
+const calculateStatModifiers = (characterData: CharacterData): FullCharacterData['statModifiers'] => {
+  const calculate = (stat: number): number =>
     Math.floor((stat - 10)/2);
 
   return {
-    strength: calculateStatModifier(characterData.stats.strength),
-    dexterity: calculateStatModifier(characterData.stats.dexterity),
-    constitution: calculateStatModifier(characterData.stats.constitution),
-    intelligence: calculateStatModifier(characterData.stats.intelligence),
-    wisdom: calculateStatModifier(characterData.stats.wisdom),
-    charisma: calculateStatModifier(characterData.stats.charisma),
+    strength: calculate(characterData.stats.strength),
+    dexterity: calculate(characterData.stats.dexterity),
+    constitution: calculate(characterData.stats.constitution),
+    intelligence: calculate(characterData.stats.intelligence),
+    wisdom: calculate(characterData.stats.wisdom),
+    charisma: calculate(characterData.stats.charisma),
   }
 };
 
-const calculateSaves = (characterData: CharacterData, modifiers: FullCharacterData['modifiers'], proficiency: number): FullCharacterData['saves'] => {
+const calculateSaves = (characterData: CharacterData, modifiers: FullCharacterData['statModifiers'], proficiency: number): FullCharacterData['saves'] => {
   const calculateSave = (stat: Stat): number => {
     return calculateSkillModifier({
       statModifier: modifiers[stat],
@@ -48,7 +48,7 @@ const calculateSaves = (characterData: CharacterData, modifiers: FullCharacterDa
   }
 };
 
-const calculateSkills = (characterData: CharacterData, modifiers: FullCharacterData['modifiers'], proficiency: number): FullCharacterData['skills'] => {
+const calculateSkills = (characterData: CharacterData, modifiers: FullCharacterData['statModifiers'], proficiency: number): FullCharacterData['skills'] => {
   const calculateSkill = (skill: keyof FullCharacterData['proficiencies'], stat: Stat): number => {
     return calculateSkillModifier({
       statModifier: modifiers[stat],
@@ -260,9 +260,9 @@ const calculateFullCharacterData: CalculateFullCharacterData = characterData => 
   const level = _.chain(Object.values(characterData.classes)).map(charClass => charClass?.level || 0).sum().value();
   const proficiency = Math.floor((level - 1) / 4) + 2;
 
-  const modifiers = calculateModifiers(characterData);
-  const saves = calculateSaves(characterData, modifiers, proficiency);
-  const skills = calculateSkills(characterData, modifiers, proficiency);
+  const statModifiers = calculateStatModifiers(characterData);
+  const saves = calculateSaves(characterData, statModifiers, proficiency);
+  const skills = calculateSkills(characterData, statModifiers, proficiency);
   const hitDice = calculateHitDice(characterData);
   const hp = calculateHp(hitDice);
   const spellSlots = calculateSpellSlots(characterData.classes);
@@ -279,7 +279,7 @@ const calculateFullCharacterData: CalculateFullCharacterData = characterData => 
     hitDice,
     hp,
     level,
-    modifiers,
+    statModifiers,
     proficiency,
     saves,
     skills,

@@ -1,13 +1,20 @@
 import React from 'react';
-import {FullCharacterData} from '../../types';
+import {styled} from 'linaria/react';
+import {FullCharacterData, Action} from '../../types';
+import {calculateToHit, calculateDamage} from '../../util/actions';
 import Table, {CenteredCell} from '../Table';
 import DiceBlock from '../DiceBlock';
 
 type ActionsProps = {
   character: FullCharacterData;
+  openRollModal: (action?: Action) => void;
 };
 
-const Actions: React.FC<ActionsProps> = ({character}) => {
+const ClickableCenteredCell = styled(CenteredCell)`
+  cursor: pointer;
+`;
+
+const Actions: React.FC<ActionsProps> = ({character, openRollModal}) => {
   return (
     <Table>
       <thead>
@@ -24,16 +31,16 @@ const Actions: React.FC<ActionsProps> = ({character}) => {
       </thead>
       <tbody>
         {character.actions.map(action => {
-          const hitDice = action.hit?.(character);
-          const damageDice = action.damage?.(character);
+          const hitModifier = calculateToHit(action, character);
+          const damageDice = calculateDamage({action, character});
 
           return (
             <tr key={action.name}>
               <td>{action.name}</td>
               <CenteredCell>{action.range}</CenteredCell>
               <CenteredCell>{action.time}</CenteredCell>
-              <CenteredCell>{hitDice && <DiceBlock dice={hitDice} />}</CenteredCell>
-              <CenteredCell>{damageDice && <DiceBlock dice={damageDice} />}</CenteredCell>
+              <CenteredCell>{hitModifier}</CenteredCell>
+              <ClickableCenteredCell onClick={() => openRollModal(action)}>{<DiceBlock dice={damageDice} />}</ClickableCenteredCell>
               <td>{action.cost}</td>
               <td>{action.duration}</td>
               <td>{action.Note && <action.Note action={action} character={character} />}</td>

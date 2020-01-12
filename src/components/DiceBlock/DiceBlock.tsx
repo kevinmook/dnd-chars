@@ -7,18 +7,22 @@ type DiceBlockProps = {
 };
 
 const DiceBlock: React.FC<DiceBlockProps> = ({dice}) => {
-  const diceTypes: (keyof Dice)[] = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20'];
+  const diceTypes: (keyof Dice)[] = ['d20', 'd12', 'd10', 'd8', 'd6', 'd4'];
   const diceStrings = diceTypes.map(diceType => {
     const numDice = dice[diceType];
     return numDice && numDice > 0 && `${numDice}${diceType}`;
   });
 
+  let diceString = _.chain(diceStrings).compact().join(' + ').value();
+
   if (dice.modifier && dice.modifier !== 0) {
     const modifier = dice.modifier > 0 ? `+ ${dice.modifier}` : `- ${-1 * dice.modifier}`;
-    diceStrings.push(modifier);
+    if (diceString.length > 0) {
+      diceString = `${diceString} ${modifier}`
+    } else {
+      diceString = modifier;
+    }
   }
-
-  const diceString = _.chain(diceStrings).compact().join(' ').value();
 
   return (
     <span>{diceString}</span>

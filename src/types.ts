@@ -4,6 +4,7 @@ export type SkillProficiency = 'basic' | 'proficient' | 'expert';
 export type Stat = 'strength' | 'dexterity' | 'constitution' | 'intelligence' | 'wisdom' | 'charisma';
 export type Skill = 'acrobatics' | 'animalHandling' | 'arcana' | 'athletics' | 'deception' | 'history' | 'insight' | 'intimidation' | 'investigation' | 'medicine' | 'nature' | 'perception' | 'performance' | 'persuasion' | 'religion' | 'slightOfHand' | 'stealth' | 'survival';
 export type SpellLevels = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 'pact';
+export type DamageType = 'piercing' | 'slashing';
 
 export type CharacterClass = {
   level: number;
@@ -46,23 +47,33 @@ export type CharacterData = {
     warlock?: WarlockClass;
     wizard?: WizardClass;
   };
+  feats?: {
+    elvenAccuracy?: boolean;
+  },
   name: string;
   proficiencies: {[key in Skill | Stat]: SkillProficiency},
   stats: {[key in Stat]: number},
   walkingSpeed: number;
 };
 
+export type ActionDamage = {
+  dice: Dice;
+  magic?: boolean;
+  type: DamageType;
+};
+
 export type Action = {
-  name: string;
-  range?: string;
-  time?: string;
-  hit?: ((character: FullCharacterData) => Dice);
-  dc?: number;
-  dcStat?: string;
-  damage?: ((character: FullCharacterData) => Dice);
   cost?: string;
+  damage?: ActionDamage;
+  dc?: number;
   duration?: string;
+  hitModifier?: number;
+  name: string;
   Note?: React.FC<{character: FullCharacterData, action: Action}>;
+  range?: string;
+  stat?: Stat;
+  proficient?: boolean;
+  time?: string;
 };
 
 export type Dice = Partial<{
@@ -82,9 +93,27 @@ export type FullCharacterData = Omit<CharacterData, 'classes'> & {
   hitDice: Dice;
   hp: number;
   level: number;
-  modifiers: {[key in Stat]: number};
+  statModifiers: {[key in Stat]: number};
   proficiency: number;
   saves: {[key in Stat]: number};
   skills: {[key in Skill]: number};
   spellSlots: {[key in SpellLevels]: number};
+};
+
+export type CharacterState = {
+  advantage: boolean;
+  currentHp: number;
+  temporaryHp: number;
+  guidance: boolean;
+};
+
+export type DiceRoll = {
+  diceSize: number;
+  diceResult: number;
+};
+
+export type RollResultType = {
+  attackRolls: DiceRoll[];
+  attackBonusRolls: DiceRoll[];
+  damageRolls: DiceRoll[];
 };
