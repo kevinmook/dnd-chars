@@ -45,14 +45,11 @@ const slipS8: CharacterData = {
       time: '1A',
       stat: 'dexterity',
       proficient: true,
-      hitModifier: 1,
       damage: {
         dice: {
           d8: 1,
-          modifier: 1,
         },
         type: 'piercing',
-        magic: true,
       },
     },
     {
@@ -62,12 +59,6 @@ const slipS8: CharacterData = {
     {
       name: 'Dash, disengage, hide, control hand',
       time: 'BA',
-    },
-    {
-      name: 'Uncanny Dodge',
-      range: 'self',
-      time: 'RA',
-      Note: () => <div>When an attacker that you can see hits you with an attack, you can use your reaction to halve the attack’s damage against you.</div>,
     },
     {
       name: 'Mage Hand',
@@ -141,18 +132,6 @@ const slipS8: CharacterData = {
       ),
     },
     {
-      name: 'Charm Person',
-      range: '30',
-      time: '1A',
-      cost: 'spell slot: 1',
-      Note: () => (
-        <div>
-          <NoteParagraph>You attempt to charm a humanoid you can see within range. It must make a Wisdom saving throw, and does so with advantage if you or your companions are fighting it. If it fails the saving throw, it is charmed by you until the spell ends or until you or your companions do anything harmful to it. The charmed creature regards you as a friendly acquaintance. When the spell ends, the creature knows it was charmed by you.</NoteParagraph>
-          <NoteParagraph>At Higher Levels. When you cast this spell using a spell slot of 2nd level or higher, you can target one additional creature for each slot level above 1st. The creatures must be within 30 feet of each other when you target them.</NoteParagraph>
-        </div>
-      ),
-    },
-    {
       name: 'Find Familiar',
       range: '30',
       time: '1A',
@@ -171,29 +150,23 @@ const slipS8: CharacterData = {
       time: '1A',
       Note: () => <div>Heals <DiceBlock dice={{d4: 2, modifier: 2}} /></div>,
     },
-    {
-      name: 'Greater potion of healing',
-      range: '5',
-      time: '1A',
-      Note: () => <div>Heals <DiceBlock dice={{d4: 4, modifier: 4}} /></div>,
-    },
   ],
-  armorClass: 16,
+  armorClass: 15,
   classes: {
     rogue: {
-      level: 6,
+      level: 3,
       arcaneTrickster: true,
     },
   },
   feats: {
-    elvenAccuracy: true,
+    elvenAccuracy: false,
   },
-  name: 'S8 - Phillip (Slip) Slipsilver',
+  name: 'S9 - Phillip (Slip) Slipsilver',
   proficiencies: {
     acrobatics: 'proficient',
     animalHandling: 'basic',
     arcana: 'basic',
-    athletics: 'expert',
+    athletics: 'proficient',
     deception: 'proficient',
     history: 'basic',
     insight: 'basic',
@@ -201,7 +174,7 @@ const slipS8: CharacterData = {
     investigation: 'basic',
     medicine: 'basic',
     nature: 'basic',
-    perception: 'expert',
+    perception: 'proficient',
     performance: 'basic',
     persuasion: 'proficient',
     religion: 'basic',
@@ -217,7 +190,7 @@ const slipS8: CharacterData = {
   },
   stats: {
     strength: 8,
-    dexterity: 18,
+    dexterity: 17,
     constitution: 14,
     intelligence: 10,
     wisdom: 14,

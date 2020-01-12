@@ -1,11 +1,12 @@
 import React from 'react';
 import Character from './components/Character';
-import {slipS8 as slipS8Character} from './characters';
+// import {slipS8 as slipS8Character} from './characters';
+import {slipS9 as selectedCharacter} from './characters';
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <Character characterData={slipS8Character} />
+      <Character characterData={selectedCharacter} />
     </div>
   );
 }
