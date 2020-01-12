@@ -1,4 +1,5 @@
 import React from 'react';
+import {styled} from 'linaria/react';
 import {Dice} from '../../types';
 import {RollResultWithTotals} from './types';
 import DiceBlock from '../DiceBlock';
@@ -16,6 +17,19 @@ type RollBoxLayoutProps = {
   toggleSneakAttack: () => void;
 };
 
+const RollBoxContainer = styled.div`
+  > *:not(:first-child) {
+    margin-top: 1rem;
+  }
+`;
+
+const RollModifiers = styled.div`
+  user-select: none;
+  display: flex;
+  max-width: 400px;
+  justify-content: space-between;
+`;
+
 const RollBoxLayout: React.FC<RollBoxLayoutProps> = ({
   advantage,
   damageDice,
@@ -28,28 +42,25 @@ const RollBoxLayout: React.FC<RollBoxLayoutProps> = ({
   toggleSneakAttack,
 }) => {
   return (
-    <div>
-      <div>Advantage: {advantage ? 'true' : 'false'}</div>
-      <div>
-        <button onClick={toggleAdvantage}>Toggle advantage</button>
-      </div>
-
-      <div>Guidance: {guidance ? 'true' : 'false'}</div>
-      <div>
-        <button onClick={toggleGuidance}>Toggle guidance</button>
-      </div>
-
-      <div>Sneak attack: {sneakAttack ? 'true' : 'false'}</div>
-      <div>
-        <button onClick={toggleSneakAttack}>Toggle sneak attack</button>
-      </div>
+    <RollBoxContainer>
+      <RollModifiers>
+        <label>
+          <input name="advantage" type="checkbox" checked={advantage} onChange={toggleAdvantage} /> Advantage
+        </label>
+        <label>
+          <input name="guidance" type="checkbox" checked={guidance} onChange={toggleGuidance} /> Guidance
+        </label>
+        <label>
+          <input name="sneakAttack" type="checkbox" checked={sneakAttack} onChange={toggleSneakAttack} /> Sneak Attack
+        </label>
+      </RollModifiers>
 
       <div>Attack for <DiceBlock dice={damageDice} /></div>
-
-      {rollResult && <RollResult rollResult={rollResult} />}
-
       <button onClick={roll}>Roll</button>
-    </div>
+
+      {rollResult && <RollResult rollResult={rollResult} damageDice={damageDice} />}
+
+    </RollBoxContainer>
   );
 };
 

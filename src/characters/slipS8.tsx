@@ -7,7 +7,7 @@ const NoteParagraph = styled.p`
   margin-block-start: 0;
   margin-block-end: 0;
   &:not(:first-child) {
-    margin-block-start: 1em;
+    margin-block-start: 1rem;
   }
 `;
 
