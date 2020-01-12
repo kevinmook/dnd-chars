@@ -79,62 +79,58 @@ const calculateSkills = (characterData: CharacterData, modifiers: FullCharacterD
   };
 };
 
+const getHitDiceForClass = (className: keyof CharacterData['classes']): keyof Dice => {
+  switch (className) {
+    case 'barbarian':
+      return 'd12';
+    case 'fighter':
+    case 'paladin':
+    case 'ranger':
+      return 'd10';
+    case 'bard':
+    case 'cleric':
+    case 'druid':
+    case 'monk':
+    case 'rogue':
+    case 'warlock':
+      return 'd8';
+    case 'sorcerer':
+    case 'wizard':
+      return 'd6';
+  }
+}
+
+const getMaxHitDieValue = (hitDie: keyof Dice): number => {
+  switch (hitDie) {
+    case 'd12': return 12;
+    case 'd10': return 10;
+    case 'd8': return 8;
+    case 'd6': return 6;
+    default: return 0;
+  }
+}
+
 const calculateHitDice = (characterData: CharacterData): Dice => {
   const dice: Dice = {};
 
   Object.entries(characterData.classes).forEach(([charClassName, charClass]) => {
     const level = charClass?.level || 0;
-    let diceType: keyof Dice | undefined = undefined;
-
-    switch (charClassName as keyof CharacterData['classes']) {
-      case 'barbarian':
-        diceType = 'd12';
-        break;
-      case 'fighter':
-      case 'paladin':
-      case 'ranger':
-        diceType = 'd10';
-        break;
-      case 'bard':
-      case 'cleric':
-      case 'druid':
-      case 'monk':
-      case 'rogue':
-      case 'warlock':
-        diceType = 'd8';
-        break;
-      case 'sorcerer':
-      case 'wizard':
-        diceType = 'd6';
-        break;
-    }
-    if (diceType) {
-      dice[diceType] = (dice[diceType] || 0) + level;
-    }
+    const diceType = getHitDiceForClass(charClassName as keyof CharacterData['classes']);
+    dice[diceType] = (dice[diceType] || 0) + level;
   });
 
   return dice;
 };
 
-const calculateHp = (hitDice: Dice): number => {
-  let hp = 0;
+const calculateHp = (startingClass: CharacterData['startingClass'], hitDice: Dice, statModifiers: FullCharacterData['statModifiers']): number => {
+  const startingClassFirstHitDie = getHitDiceForClass(startingClass);
+  let hp = getMaxHitDieValue(startingClassFirstHitDie) / 2 - 1; // we'll add back the rest of the die when iterating over the hit dice
+  const constMod = statModifiers.constitution
 
-  Object.entries(hitDice).forEach(([dice, amount]) => {
-    if (amount) {
-      switch (dice) {
-        case 'd6':
-          hp += amount * 4;
-          break;
-        case 'd8':
-          hp += amount * 5;
-          break;
-        case 'd10':
-          hp += amount * 6;
-          break;
-        case 'd12':
-          hp += amount * 7;
-          break;
-      }
+  Object.entries(hitDice).forEach(([dice, level]) => {
+    if (level && level > 0) {
+      const amountPerLevel = getMaxHitDieValue(dice as keyof Dice) / 2 + 1;
+      hp += level * (amountPerLevel + constMod);
     }
   });
 
@@ -264,7 +260,7 @@ const calculateFullCharacterData: CalculateFullCharacterData = characterData => 
   const saves = calculateSaves(characterData, statModifiers, proficiency);
   const skills = calculateSkills(characterData, statModifiers, proficiency);
   const hitDice = calculateHitDice(characterData);
-  const hp = calculateHp(hitDice);
+  const hp = calculateHp(characterData.startingClass, hitDice, statModifiers);
   const spellSlots = calculateSpellSlots(characterData.classes);
 
   const fullCharacterData: FullCharacterData = {

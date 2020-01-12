@@ -215,6 +215,7 @@ const slipS8: CharacterData = {
     wisdom: 'basic',
     charisma: 'basic',
   },
+  startingClass: 'rogue',
   stats: {
     strength: 8,
     dexterity: 18,

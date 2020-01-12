@@ -52,6 +52,7 @@ export type CharacterData = {
   },
   name: string;
   proficiencies: {[key in Skill | Stat]: SkillProficiency},
+  startingClass: keyof CharacterData['classes'],
   stats: {[key in Stat]: number},
   walkingSpeed: number;
 };
