@@ -10,8 +10,8 @@ type ActionsProps = {
   openRollModal: (action?: Action) => void;
 };
 
-const ClickableCenteredCell = styled(CenteredCell)`
-  cursor: pointer;
+const ClickableCenteredCell = styled(CenteredCell)<{clickable: boolean, onClick: () => void}>`
+  cursor: ${props => props.clickable ? 'pointer' : ''};
 `;
 
 const Actions: React.FC<ActionsProps> = ({character, openRollModal}) => {
@@ -40,7 +40,12 @@ const Actions: React.FC<ActionsProps> = ({character, openRollModal}) => {
               <CenteredCell>{action.range}</CenteredCell>
               <CenteredCell>{action.time}</CenteredCell>
               <CenteredCell>{hitModifier !== 0 || action.damage !== undefined ? hitModifier : ''}</CenteredCell>
-              <ClickableCenteredCell onClick={() => openRollModal(action)}>{<DiceBlock dice={damageDice} />}</ClickableCenteredCell>
+              <ClickableCenteredCell
+                clickable={!!action.damage}
+                onClick={() => action.damage && openRollModal(action)}
+              >
+                {<DiceBlock dice={damageDice} />}
+              </ClickableCenteredCell>
               <td>{action.cost}</td>
               <td>{action.duration}</td>
               <td>{action.Note && <action.Note action={action} character={character} />}</td>
