@@ -16,7 +16,7 @@ const DM: React.FC<DMProps> = ({encounter}) => {
 
   return (
     <DMLayout
-      creatures={creatureInstances}
+      creatureInstances={creatureInstances}
     />
   );
 };

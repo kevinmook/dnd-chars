@@ -1,9 +1,10 @@
 import React from 'react';
 import {styled} from 'linaria/react';
 import {CreatureInstance} from './types';
+import Creature from './Creature';
 
 type DMLayoutProps = {
-  creatures: CreatureInstance[];
+  creatureInstances: CreatureInstance[];
 };
 
 const LayoutContainer = styled.div`
@@ -29,7 +30,7 @@ const Creatures = styled.div`
 const ActiveCreature = styled.div`
 `;
 
-const DMLayout: React.FC<DMLayoutProps> = () => {
+const DMLayout: React.FC<DMLayoutProps> = ({creatureInstances}) => {
   return (
     <LayoutContainer>
       <Actions>
@@ -37,7 +38,12 @@ const DMLayout: React.FC<DMLayoutProps> = () => {
       </Actions>
       <CreatureContainer>
         <Creatures>
-          Creatures
+          {creatureInstances.map(creatureInstance => (
+            <Creature
+              key={creatureInstance.creature.id}
+              creatureInstance={creatureInstance}
+            />
+          ))}
         </Creatures>
         <ActiveCreature>
           Active Creature
