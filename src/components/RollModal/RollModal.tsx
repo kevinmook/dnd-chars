@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 import noScroll from 'no-scroll';
+import {styled} from 'linaria/react';
 import {CharacterState, Action, FullCharacterData} from '../../types';
 import {SetState} from '../../util';
 import RollBox from '../RollBox';
@@ -15,6 +16,12 @@ type RollModalProps = {
   open: boolean;
   setCharacterState: SetState<CharacterState>;
 };
+
+const CloseButton = styled.button`
+  margin-top: 2rem;
+  width: 7rem;
+  height: 3rem;
+`;
 
 const RollModal: React.FC<RollModalProps> = ({action, character, characterState, open, onClose}) => {
   let clearRollBox: () => void = () => {};
@@ -48,7 +55,7 @@ const RollModal: React.FC<RollModalProps> = ({action, character, characterState,
         setClearCallback={callback => clearRollBox = callback}
       />
 
-      <button onClick={handleClose}>close</button>
+      <CloseButton onClick={handleClose}>close</CloseButton>
     </Modal>
   );
 };

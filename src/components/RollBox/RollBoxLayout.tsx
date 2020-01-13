@@ -30,6 +30,11 @@ const RollModifiers = styled.div`
   justify-content: space-between;
 `;
 
+const RollButton = styled.button`
+  width: 7rem;
+  height: 3rem;
+`;
+
 const RollBoxLayout: React.FC<RollBoxLayoutProps> = ({
   advantage,
   damageDice,
@@ -56,7 +61,7 @@ const RollBoxLayout: React.FC<RollBoxLayoutProps> = ({
       </RollModifiers>
 
       <div>Attack for <DiceBlock dice={damageDice} /></div>
-      <button onClick={roll}>Roll</button>
+      <RollButton onClick={roll}>Roll</RollButton>
 
       {rollResult && <RollResult rollResult={rollResult} damageDice={damageDice} />}
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {CharacterData, CharacterState, Action} from '../../types';
-import {CharacterStateProvider} from '../CharacterState';
+import {CharacterStateProvider} from '../../components/CharacterState';
 import calculateFullCharacterData from './calculateFullCharacterData';
 import CharacterLayout from './CharacterLayout';
 

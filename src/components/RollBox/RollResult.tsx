@@ -6,10 +6,8 @@ import {DiceRoll, Dice} from '../../types';
 
 const RollResultContainer = styled.div`
   display: flex;
-  max-width: 400px;
-  justify-content: space-between;
   > *:not(:first-child) {
-    margin-left: 3rem;
+    margin-left: 1rem;
   }
 `;
 
@@ -17,6 +15,18 @@ const RollBox = styled.div`
   > *:not(:first-child) {
     margin-top: 1rem;
   }
+
+  > h3 {
+    text-align: center;
+    margin: 0;
+  }
+
+  border-color: #d3d3ff;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 1rem;
+  padding: 2rem;
+  min-width: 10rem;
 `;
 
 const DiceRow = styled.div`
@@ -37,6 +47,7 @@ const DamageDiceResult = styled.div`
 
 const BigResults = styled.div<{crit?: boolean; critMiss?: boolean;}>`
   font-size: 4rem;
+  text-align: center;
   color: ${props => {
     if (props.crit) {
       return 'green';
