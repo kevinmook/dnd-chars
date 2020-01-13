@@ -1,7 +1,7 @@
 import React from 'react';
 import {styled} from 'linaria/react';
 import {FullCharacterData} from '../../types';
-import Table from '../Table';
+import Table from '../../components/Table';
 
 type StatTableProps = {
   character: FullCharacterData;

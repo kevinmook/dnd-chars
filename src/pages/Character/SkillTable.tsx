@@ -1,6 +1,6 @@
 import React from 'react';
 import {FullCharacterData} from '../../types';
-import Table, {CenteredCell} from '../Table';
+import Table, {CenteredCell} from '../../components/Table';
 
 type SkillTableProps = {
   character: FullCharacterData;

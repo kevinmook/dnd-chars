@@ -2,7 +2,7 @@ import React from 'react';
 import {styled} from 'linaria/react';
 import {FullCharacterData, CharacterState, Action} from '../../types';
 import {SetState} from '../../util';
-import RollModal from '../RollModal';
+import RollModal from '../../components/RollModal';
 import StatTable from './StatTable';
 import SkillTable from './SkillTable';
 import SavesTable from './SavesTable';

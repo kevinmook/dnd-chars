@@ -2,8 +2,8 @@ import React from 'react';
 import {styled} from 'linaria/react';
 import {FullCharacterData, Action} from '../../types';
 import {calculateToHit, calculateDamage} from '../../util/actions';
-import Table, {CenteredCell} from '../Table';
-import DiceBlock from '../DiceBlock';
+import Table, {CenteredCell} from '../../components/Table';
+import DiceBlock from '../../components/DiceBlock';
 
 type ActionsProps = {
   character: FullCharacterData;

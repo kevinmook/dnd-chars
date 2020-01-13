@@ -30,6 +30,10 @@ export type FullWarlockClass = WarlockClass & {
 };
 export type WizardClass = CharacterClass;
 
+export type Stats = {[key in Stat]: number};
+export type SpellSlots = {[key in SpellLevels]: number};
+export type Proficiencies = {[key in Skill | Stat]: SkillProficiency};
+
 export type CharacterData = {
   actions: Action[];
   armorClass: number;
@@ -51,9 +55,9 @@ export type CharacterData = {
     elvenAccuracy?: boolean;
   },
   name: string;
-  proficiencies: {[key in Skill | Stat]: SkillProficiency},
+  proficiencies: Proficiencies,
   startingClass: keyof CharacterData['classes'],
-  stats: {[key in Stat]: number},
+  stats: Stats;
   walkingSpeed: number;
 };
 
@@ -94,11 +98,11 @@ export type FullCharacterData = Omit<CharacterData, 'classes'> & {
   hitDice: Dice;
   hp: number;
   level: number;
-  statModifiers: {[key in Stat]: number};
+  statModifiers: Stats;
   proficiency: number;
-  saves: {[key in Stat]: number};
+  saves: Stats;
   skills: {[key in Skill]: number};
-  spellSlots: {[key in SpellLevels]: number};
+  spellSlots: SpellSlots;
 };
 
 export type CharacterState = {
@@ -117,4 +121,24 @@ export type RollResultType = {
   attackRolls: DiceRoll[];
   attackBonusRolls: DiceRoll[];
   damageRolls: DiceRoll[];
+};
+
+export type Creature = {
+  id: string;
+  actions: Action[];
+  hp: number;
+  name: string;
+  Note?: React.FC<{}>;
+  spellSlots?: SpellSlots;
+  stats: Stats;
+  walkingSpeed: number;
+};
+
+export type FullCreature = Creature & {
+  saves: Stats;
+  statModifiers: Stats;
+};
+
+export type Encounter = {
+  creatures: Creature[];
 };

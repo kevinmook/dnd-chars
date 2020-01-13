@@ -1,7 +1,7 @@
 import React from 'react';
 import {CharacterData, CharacterState, Action} from '../../types';
+import {calculateFullCharacter} from '../../util/calculateFullData';
 import {CharacterStateProvider} from '../../components/CharacterState';
-import calculateFullCharacterData from './calculateFullCharacterData';
 import CharacterLayout from './CharacterLayout';
 
 type CharacterProps = {
@@ -9,17 +9,15 @@ type CharacterProps = {
 };
 
 const Character: React.FC<CharacterProps> = ({characterData}) => {
-  const fullCharacterData = calculateFullCharacterData(characterData);
+  const fullCharacterData = calculateFullCharacter(characterData);
   const [characterState, setCharacterState] = React.useState<CharacterState>({
     advantage: false,
     currentHp: fullCharacterData.hp,
     temporaryHp: 0,
     guidance: false,
   });
-  // const [rollModalOpen, setRollModalOpen] = React.useState(false);
-  // const [activeAction, setActiveAction] = React.useState<Action | null>(null);
-  const [rollModalOpen, setRollModalOpen] = React.useState(true);
-  const [activeAction, setActiveAction] = React.useState<Action | null>(characterData.actions[0]);
+  const [rollModalOpen, setRollModalOpen] = React.useState(false);
+  const [activeAction, setActiveAction] = React.useState<Action | null>(null);
 
   const handleCloseRollModal = () => {
     setRollModalOpen(false);
