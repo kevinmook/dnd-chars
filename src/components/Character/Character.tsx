@@ -16,8 +16,10 @@ const Character: React.FC<CharacterProps> = ({characterData}) => {
     temporaryHp: 0,
     guidance: false,
   });
-  const [rollModalOpen, setRollModalOpen] = React.useState(false);
-  const [activeAction, setActiveAction] = React.useState<Action | null>(null);
+  // const [rollModalOpen, setRollModalOpen] = React.useState(false);
+  // const [activeAction, setActiveAction] = React.useState<Action | null>(null);
+  const [rollModalOpen, setRollModalOpen] = React.useState(true);
+  const [activeAction, setActiveAction] = React.useState<Action | null>(characterData.actions[0]);
 
   const handleCloseRollModal = () => {
     setRollModalOpen(false);
