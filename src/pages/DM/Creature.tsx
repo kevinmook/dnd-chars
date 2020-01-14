@@ -14,6 +14,7 @@ const CreatureContainer = styled.div`
 const Name = styled.div``;
 const HP = styled.div``;
 const Initiative = styled.div``;
+const Actions = styled.div``;
 
 const Creature: React.FC<CreatureProps> = ({creatureInstance}) => {
 
@@ -22,6 +23,9 @@ const Creature: React.FC<CreatureProps> = ({creatureInstance}) => {
       <Name>{creatureInstance.creature.name}</Name>
       <HP>{creatureInstance.currentHp} / {creatureInstance.creature.hp}</HP>
       {creatureInstance.initiative ?? <Initiative>{creatureInstance.initiative}</Initiative>}
+      <Actions>
+
+      </Actions>
     </CreatureContainer>
   );
 };
